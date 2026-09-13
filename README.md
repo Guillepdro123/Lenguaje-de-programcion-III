@@ -21,6 +21,28 @@ Esta es una API REST moderna y robusta construida con Python, diseñada para la 
 
 ## Arquitectura del Proyecto
 
+La estructura de carpetas del proyecto se ha organizado de la siguiente forma para mantener un orden estricto:
+
+```text
+API_ESTUDIANTES/
+├── app/
+│   ├── dependencies/      # Inyección de dependencias
+│   ├── models/            # Entidades internas del sistema
+│   ├── repositories/      # Acceso a datos (simulado en memoria)
+│   ├── schemas/           # Esquemas de validación de Pydantic
+│   ├── services/          # Lógica de negocio y reglas
+│   ├── __init__.py
+│   └── main.py            # Archivo principal de FastAPI
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py        # Configuración y mocks para los tests
+│   └── test_estudiantes.py# Casos de prueba unitarios
+├── .env                   # Variables de entorno
+├── .gitignore             # Archivos excluidos del control de versiones
+├── requirements.txt       # Dependencias del proyecto
+└── README.md              # Documentación oficial
+```
+
 El proyecto se divide en las siguientes capas lógicas:
 
 - **Configuración y Rutas (`main.py`):** Contiene la instancia de la aplicación FastAPI y expone los endpoints. No contiene lógica de negocio.
@@ -86,7 +108,10 @@ La API expone las siguientes operaciones (CRUD):
 | **PUT** | `/estudiantes/{id}` | Actualizar los datos (nombre, semestre, etc.) de un estudiante existente |
 | **DELETE** | `/estudiantes/{id}` | Eliminar de forma definitiva a un estudiante del sistema |
 
+> **Nota importante sobre los IDs:** La base de datos (repositorio) se encarga de asignar el `id` de forma completamente automática y secuencial al crear un nuevo registro (POST). Por lo tanto, no es necesario —ni está permitido— enviar el campo `id` manualmente durante la creación de un estudiante.
+
 ---
+
 
 ## Pruebas Unitarias
 
