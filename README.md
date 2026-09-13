@@ -108,7 +108,7 @@ La API expone las siguientes operaciones (CRUD):
 | **PUT** | `/estudiantes/{id}` | Actualizar los datos (nombre, semestre, etc.) de un estudiante existente |
 | **DELETE** | `/estudiantes/{id}` | Eliminar de forma definitiva a un estudiante del sistema |
 
-> **Nota importante sobre los IDs:** La base de datos (repositorio) se encarga de asignar el `id` de forma completamente automática y secuencial al crear un nuevo registro (POST). Por lo tanto, no es necesario —ni está permitido— enviar el campo `id` manualmente durante la creación de un estudiante.
+> **Nota importante sobre los IDs:** Para crear un nuevo registro (método POST), el cliente debe enviar obligatoriamente el campo `id` (de tipo entero) dentro del cuerpo de la petición JSON. El sistema validará que el ID enviado no se encuentre previamente registrado; en caso de existir, devolverá un error HTTP 400 (Bad Request).
 
 ---
 

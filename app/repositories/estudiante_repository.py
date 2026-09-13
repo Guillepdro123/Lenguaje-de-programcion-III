@@ -5,7 +5,6 @@ from app.models.estudiante import Estudiante
 class EstudianteRepository(BaseRepository):
     def __init__(self):
         self._data: Dict[int, Estudiante] = {}
-        self._current_id = 1
 
     def get_all(self) -> List[Estudiante]:
         return list(self._data.values())
@@ -15,14 +14,13 @@ class EstudianteRepository(BaseRepository):
 
     def create(self, estudiante_data: dict) -> Estudiante:
         estudiante = Estudiante(
-            id=self._current_id,
+            id=estudiante_data["id"],
             nombre=estudiante_data["nombre"],
             programa=estudiante_data["programa"],
             semestre=estudiante_data["semestre"],
             promedio=estudiante_data["promedio"]
         )
-        self._data[self._current_id] = estudiante
-        self._current_id += 1
+        self._data[estudiante.id] = estudiante
         return estudiante
 
     def update(self, id: int, estudiante_data: dict) -> Optional[Estudiante]:

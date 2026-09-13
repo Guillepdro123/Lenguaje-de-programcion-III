@@ -19,6 +19,9 @@ class EstudianteService:
         return EstudianteOut(id=estudiante.id, nombre=estudiante.nombre, programa=estudiante.programa, semestre=estudiante.semestre, promedio=estudiante.promedio)
 
     def create(self, estudiante_create: EstudianteCreate) -> EstudianteOut:
+        if self.repository.get_by_id(estudiante_create.id):
+            raise HTTPException(status_code=400, detail="El ID del estudiante ya está en uso")
+        
         estudiante = self.repository.create(estudiante_create.model_dump())
         return EstudianteOut(id=estudiante.id, nombre=estudiante.nombre, programa=estudiante.programa, semestre=estudiante.semestre, promedio=estudiante.promedio)
 

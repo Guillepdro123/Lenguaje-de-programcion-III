@@ -8,7 +8,7 @@ class EstudianteBase(BaseModel):
     promedio: float = Field(..., ge=0.0)
 
 class EstudianteCreate(EstudianteBase):
-    pass
+    id: int = Field(..., ge=1)
 
 class EstudianteUpdate(EstudianteBase):
     nombre: Optional[str] = None

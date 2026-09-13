@@ -1,5 +1,6 @@
 def test_create_estudiante(client):
     response = client.post("/estudiantes", json={
+        "id": 1,
         "nombre": "Juan Perez",
         "programa": "Ingenieria de Sistemas",
         "semestre": 5,
@@ -10,8 +11,30 @@ def test_create_estudiante(client):
     assert data["id"] == 1
     assert data["nombre"] == "Juan Perez"
 
+def test_create_estudiante_id_duplicado(client):
+    # Primer registro exitoso
+    client.post("/estudiantes", json={
+        "id": 1,
+        "nombre": "Maria",
+        "programa": "Biologia",
+        "semestre": 1,
+        "promedio": 5.0
+    })
+    
+    # Intento de registrar otro estudiante con el mismo ID
+    response = client.post("/estudiantes", json={
+        "id": 1,
+        "nombre": "Pedro",
+        "programa": "Biologia",
+        "semestre": 2,
+        "promedio": 4.0
+    })
+    assert response.status_code == 400
+    assert response.json()["detail"] == "El ID del estudiante ya está en uso"
+
 def test_get_estudiante_existente(client):
     client.post("/estudiantes", json={
+        "id": 1,
         "nombre": "Ana Gomez",
         "programa": "Medicina",
         "semestre": 3,
@@ -31,6 +54,7 @@ def test_estudiante_no_existe_404(client):
 
 def test_update_estudiante_exitoso(client):
     client.post("/estudiantes", json={
+        "id": 1,
         "nombre": "Carlos",
         "programa": "Derecho",
         "semestre": 2,
@@ -43,6 +67,7 @@ def test_update_estudiante_exitoso(client):
 
 def test_delete_estudiante_exitoso(client):
     client.post("/estudiantes", json={
+        "id": 1,
         "nombre": "Luis",
         "programa": "Arquitectura",
         "semestre": 8,
@@ -56,6 +81,7 @@ def test_delete_estudiante_exitoso(client):
 
 def test_datos_invalidos_422(client):
     response = client.post("/estudiantes", json={
+        "id": 1,
         "nombre": "Pedro",
         "semestre": "no es un numero",
         "promedio": 4.0
