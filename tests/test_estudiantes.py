@@ -8,8 +8,9 @@ def test_create_estudiante(client):
     })
     assert response.status_code == 201
     data = response.json()
-    assert data["id"] == 1
-    assert data["nombre"] == "Juan Perez"
+    assert data["mensaje"] == "Estudiante registrado exitosamente"
+    assert data["estudiante"]["id"] == 1
+    assert data["estudiante"]["nombre"] == "Juan Perez"
 
 def test_create_estudiante_id_duplicado(client):
     # Primer registro exitoso
@@ -42,7 +43,8 @@ def test_get_estudiante_existente(client):
     })
     response = client.get("/estudiantes/1")
     assert response.status_code == 200
-    assert response.json()["nombre"] == "Ana Gomez"
+    assert response.json()["mensaje"] == "Estudiante encontrado"
+    assert response.json()["estudiante"]["nombre"] == "Ana Gomez"
 
 def test_estudiante_no_existe_404(client):
     response = client.get("/estudiantes/999")
@@ -62,8 +64,9 @@ def test_update_estudiante_exitoso(client):
     })
     response = client.put("/estudiantes/1", json={"promedio": 4.1})
     assert response.status_code == 200
-    assert response.json()["promedio"] == 4.1
-    assert response.json()["nombre"] == "Carlos"
+    assert response.json()["mensaje"] == "Estudiante actualizado correctamente"
+    assert response.json()["estudiante"]["promedio"] == 4.1
+    assert response.json()["estudiante"]["nombre"] == "Carlos"
 
 def test_delete_estudiante_exitoso(client):
     client.post("/estudiantes", json={
@@ -74,7 +77,8 @@ def test_delete_estudiante_exitoso(client):
         "promedio": 4.0
     })
     response = client.delete("/estudiantes/1")
-    assert response.status_code == 204
+    assert response.status_code == 200
+    assert response.json()["mensaje"] == "Estudiante eliminado exitosamente"
     
     response = client.get("/estudiantes/1")
     assert response.status_code == 404

@@ -21,3 +21,15 @@ class EstudianteOut(EstudianteBase):
 
     class Config:
         from_attributes = True
+
+class EstudianteResponse(BaseModel):
+    mensaje: str
+    estudiante: EstudianteOut
+
+class EstudianteListResponse(BaseModel):
+    mensaje: str
+    cantidad: int
+    estudiantes: list[EstudianteOut]
+
+class EstudianteDeleteResponse(BaseModel):
+    mensaje: str
